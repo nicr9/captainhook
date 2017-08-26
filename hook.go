@@ -7,16 +7,34 @@ import (
 )
 
 type HookManager struct {
-	All []Hook
+	All    []Hook
+	Create chan Hook
+	Delete chan Hook
 }
 
 func NewHookManager() *HookManager {
 	hooks := make([]Hook, 0)
-	return &HookManager{hooks}
+
+	create := make(chan Hook)
+	delete := make(chan Hook)
+
+	return &HookManager{hooks, create, delete}
 }
 
-func (h *HookManager) AddHook(hook Hook) {
-	h.All = append(h.All, hook)
+func (h *HookManager) Run() {
+	for {
+		select {
+		case hook := <-h.Create:
+			h.All = append(h.All, hook)
+		case hook := <-h.Delete:
+			for i, v := range h.All {
+				if v == hook {
+					h.All = append(h.All[:i], h.All[i+1:]...)
+					break
+				}
+			}
+		}
+	}
 }
 
 type Hook struct {

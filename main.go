@@ -22,16 +22,17 @@ type Creator struct {
 
 func (c Creator) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	hook := NewHook()
-	c.Manager.AddHook(hook)
+	c.Manager.Create <- hook
 
 	fmt.Fprintf(w, "Created a new hook: %+v\n", hook.Id)
 }
 
 func main() {
-	hooks := NewHookManager()
-	http.Handle("/", Homepage{hooks})
-	http.Handle("/create/", Creator{hooks})
+	manager := NewHookManager()
+	http.Handle("/", Homepage{manager})
+	http.Handle("/create/", Creator{manager})
 
 	log.Println("Starting server...")
+	go manager.Run()
 	http.ListenAndServe(":8080", nil)
 }
