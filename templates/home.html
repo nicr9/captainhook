@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Captain Hook</title>
+    </head>
+    <body>
+        <h1>Captain Hook</h1>
+        {{ if .All }}
+        {{ range .All }}
+        <h2>Configured Hooks</h2>
+        <ul>
+            <a href="{{ .Path }}">{{ .Id }}</a>
+        </ul>
+        {{ end }}
+        {{ else }}
+        <h2>No Hooks Configured<h2>
+        {{ end }}
+    </body>
+</html>
