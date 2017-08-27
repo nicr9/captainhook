@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Captain Hook - A webhook controller for Kubernetes
+name: cpthook
+version: 0.1.0
