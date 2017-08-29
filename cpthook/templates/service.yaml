@@ -10,5 +10,6 @@ spec:
     targetPort: {{ .Values.service.internalPort }}
     protocol: TCP
     name: web
+  type: NodePort
   selector:
     app: {{ template "fullname" . }}
