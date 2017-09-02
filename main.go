@@ -29,8 +29,10 @@ func (c Creator) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	manager := NewHookManager()
+	controller := NewHookController()
 	http.Handle("/", Homepage{manager})
 	http.Handle("/create/", Creator{manager})
+	http.Handle("/hookjob/", controller)
 
 	log.Println("Starting server...")
 	go manager.Run()
