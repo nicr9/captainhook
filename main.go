@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"k8s.io/client-go/rest"
 	"log"
 	"net/http"
 )
@@ -28,8 +29,14 @@ func (c Creator) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	// creates the in-cluster config
+	config, err := rest.InClusterConfig()
+	if err != nil {
+		panic(err.Error())
+	}
+	
 	manager := NewHookManager()
-	controller := NewHookController()
+	controller := NewHookController(config)
 	http.Handle("/", Homepage{manager})
 	http.Handle("/create/", Creator{manager})
 	http.Handle("/hookjob/", controller)
