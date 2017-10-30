@@ -18,7 +18,7 @@ type HookController struct {
 	TPR    *v1beta1.ThirdPartyResource
 }
 
-func NewHookController(config rest.Config) HookController {
+func NewHookController(config *rest.Config) HookController {
 	// creates the clientset
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
