@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-var HOOK_TPR string = "hookjob.example.com"
+var HOOK_TPR string = "hook-job.example.com"
 
 type HookController struct {
 	Client *kubernetes.Clientset
