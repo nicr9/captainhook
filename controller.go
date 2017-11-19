@@ -11,20 +11,14 @@ import (
 	"net/http"
 )
 
-var HOOK_TPR string = "hookjob.example.com"
+var HOOK_TPR string = "hook-job.example.com"
 
 type HookController struct {
 	Client *kubernetes.Clientset
 	TPR    *v1beta1.ThirdPartyResource
 }
 
-func NewHookController() HookController {
-	// creates the in-cluster config
-	config, err := rest.InClusterConfig()
-	if err != nil {
-		panic(err.Error())
-	}
-
+func NewHookController(config *rest.Config) HookController {
 	// creates the clientset
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
